@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KLASIFIKASI GAMBAR PEMANDANGAN</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap" 
+    rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body>
+
+    <nav class="navbar">
+      <div class="d-flex align-items-center gap-4">
+        <a href="#" id="hamburger-menu" class="d-flex d-md-none text-white"><i data-feather="menu"></i></a>
+        <a href="#" class="navbar-logo">KLASIFIKASI GAMBAR<span> PEMANDANGAN</a>
+      </div>
+      <div class="navbar-nav">
+        <a href="#home">Home</a>
+        <a href="#about">Tentang Kami</a>
+        <a href="#galeri">Galeri</a>
+        <a href="#contact">Kontak</a>
+      </div>
+    </nav>
+
+    <main class="hero" id="home">
+      <section class="jumbotron">
+        <h1>Mari Nikmati <span>Pemandangan</span></h1>
+        <p>Hutan dan laut, dua keindahan alam yang tiada tara. Hutan, dengan rimbunnya dedaunan, adalah panggilan untuk menjelajahi keajaiban tersembunyi. Sedangkan laut, dengan gemuruh ombaknya dan kebiruannya yang menakjubkan, adalah pangkalan kehidupan dan kebebasan yang tak terbatas. Dua dunia yang mempesona, mengundang kita untuk merasakan kedalaman dan keajaiban yang tak terlupakan.</p>
+      </section>
+    </main>
+
+    <div class="container mt-5">
+      <div>
+        <h1>Klasifikasi Gambar Pemandangan</h1>
+        <div>
+          <input class="form-control form-control-lg" id="upload_file" type="file" />
+        </div>
+        <button class="btn btn-primary mt-3" onclick="startPredict()">Go!</button>
+        <h5 class="mt-5">Jenis Pemandangan:</h5>
+        <h2 id="result"></h2>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+      function startPredict() {
+        var formData = new FormData();
+        var image = $("#upload_file")[0].files[0];
+        formData.append("image", image);
+
+        $.ajax({
+          url: "/pemandangan",
+          type: "POST",
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            $("#result").text(response.class);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.error("Error:", textStatus, errorThrown);
+            $("#result").text("Terjadi kesalahan. Silakan coba lagi.");
+          },
+        });
+      }
+    </script>
+
+    <section id="about" class="about">
+      <h2><span>Tentang</span> Kami</h2>
+      <div class="row">
+        <div class="about-img">
+          <img src="{{ url_for('static', filename='img/tentang-kami.jpg') }}" alt="Tentang Kami">
+        </div>
+        <div class="content">
+          <h3>KLASIFIKASI GAMBAR PEMANDANGAN</h3>
+          <p>Klasifikasi gambar pemandangan mengacu pada proses pengelompokan atau kategorisasi gambar yang menggambarkan pemandangan alam atau buatan berdasarkan berbagai kriteria tertentu. Tujuan dari klasifikasi ini adalah untuk mengorganisir gambar-gambar tersebut agar lebih mudah diidentifikasi, dianalisis, dan digunakan.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="galeri" class="galeri">
+      <h2><span>Galeri</span> Kami</h2>
+      <style>
+        .galeri-card {
+          width: 200px;
+        }
+        .galeri-card-img {
+          width: 100%;
+          height: auto;
+        }
+      </style>
+      <div class="row">
+        <div class="galeri-card">
+          <img src="{{ url_for('static', filename='img/galeri/1.jpg') }}" alt="HUTAN" class="galeri-card-img">
+          <h3 class="galeri-card-title">- HUTAN -</h3>
+        </div>
+        <div class="galeri-card">
+          <img src="{{ url_for('static', filename='img/galeri/2.jpg') }}" alt="GUNUNG" class="galeri-card-img">
+          <h3 class="galeri-card-title">- GUNUNG -</h3>
+        </div>
+        <div class="galeri-card">
+          <img src="{{ url_for('static', filename='img/galeri/3.jpg') }}" alt="LAUTAN" class="galeri-card-img">
+          <h3 class="galeri-card-title">- LAUTAN -</h3>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2><span>Kontak</span> Kami</h2>
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae natus non cumque perferendis dignissimos ex.</p>
+      <div class="row">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1616.6991480043532!2d109.01373585611864!3d-7.25765615067584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f8f6bdb13dd45%3A0x2b3b2f178c28d212!2sPagenjahan%2C%20Kalierang%2C%20Bumiayu%2C%20Brebes%20Regency%2C%20Central%20Java!5e0!3m2!1sen!2sid!4v1691388438700!5m2!1sen!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="map"></iframe>
+        <form action="">
+          <div class="input-group">
+            <i data-feather="user"></i>
+            <input type="text" placeholder="nama">
+          </div>
+          <div class="input-group"> 
+            <i data-feather="mail"></i>
+            <input type="text" placeholder="email">
+          </div>
+          <div class="input-group">
+            <i data-feather="phone"></i>
+            <input type="text" placeholder="no hp">
+          </div>
+          <button type="submit" class="btn">kirim pesan</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="socials">
+        <a href="#"><i data-feather="instagram"></i></a>
+      </div>
+      <div class="links">
+        <a href="#home">Home</a>
+        <a href="#about">Tentang Kami</a>
+        <a href="#galeri">Galeri</a>
+        <a href="#contact">Kontak</a>
+      </div>
+      <div class="credit">
+        <p>Created by <a href="">Muhammad Naufal Maulana Abrari</a>. | &copy; 2024.</p>
+      </div>
+    </footer>
+
+    <script>
+      feather.replace();
+    </script>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>
